@@ -204,10 +204,13 @@ async function sendGBK(){
    if(btn)btn.textContent="Confirm in wallet…";
    setMsg("Waiting for Bitget Wallet confirmation…");
    const data=token.interface.encodeFunctionData("transfer",[r,units]);
-   const txRequest={from:address,to:GBK,value:"0x0",data,chainId:"0x38"};
-   const gas=await wcProvider.request({method:"eth_estimateGas",params:[txRequest]});
-   txRequest.gas=gas;
-   const hash=await wcProvider.request({method:"eth_sendTransaction",params:[txRequest]});
+   // Always prefer Bitget's native injected provider when running inside Bitget Wallet.
+   // Avoid eth_estimateGas here because some in-app wallet bridges reject that call
+   // before opening the confirmation UI.
+   const directProvider=window.bitkeep?.ethereum||wcProvider;
+   const txRequest={from:address,to:GBK,value:"0x0",data,gas:"0x15f90",chainId:"0x38"};
+   setMsg("Opening Bitget Wallet confirmation…");
+   const hash=await directProvider.request({method:"eth_sendTransaction",params:[txRequest]});
    txEl.href="https://bscscan.com/tx/"+hash;
    txEl.textContent="View transaction on BscScan ↗";
    txEl.style.display="inline-block";
