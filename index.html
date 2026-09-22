@@ -1,1 +1,145 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#07111f"/><meta name="description" content="GBKAI Pay — global payment infrastructure for GBank APY (GBK), stablecoins, merchants, AI-powered payments, and BNB Smart Chain."/><title>GBKAI Pay</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>GBKAI Pay</title>
+<meta name="description" content="GBKAI Pay — global payments powered by GBank APY (GBK) on BNB Smart Chain.">
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#050b15;color:#edf6ff;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh}button,input{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;background:radial-gradient(circle at 80% 0,#12365c,#07111f 38%,#050b15 78%)}
+header{height:76px;padding:0 5vw;display:flex;align-items:center;gap:20px;border-bottom:1px solid #ffffff12;background:#040a13dd;backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;min-width:230px}.brand b{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#66e5ff,#1687ff);color:#06111d}.brand strong{font-size:20px}.brand i{color:#55d8ff;font-style:normal}.brand small{display:block;color:#8298ae;font-size:9px;text-transform:uppercase;letter-spacing:.1em}
+nav{display:flex;justify-content:center;gap:5px;flex:1}nav button{background:none;border:0;color:#8298ae;padding:9px 12px;border-radius:9px}nav button.active{background:#4dc2ff12;color:#fff}
+.connect,.primary,.secondary{border:1px solid #5ed6ff55;border-radius:11px;padding:11px 16px;font-weight:750}.connect,.primary{color:#03111c;background:linear-gradient(135deg,#7cecff,#2f9cff)}.secondary{color:#dff7ff;background:#46afff12}
+main{width:min(1180px,90vw);margin:auto;padding:65px 0 40px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center}.hero label,.panel>label{color:#55d8ff;font-size:11px;letter-spacing:.15em;font-weight:850}.hero h1{font-size:clamp(45px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:15px 0 22px}.hero h1 em{color:#54d9ff;font-style:normal}.hero p{max-width:620px;color:#a8b9c9;font-size:18px;line-height:1.65}.actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}.msg{margin-top:15px;color:#91dfff;font-size:13px}.tx{display:inline-block;margin-top:10px;color:#6ee7ff;font-size:13px}
+.wallet{padding:26px;border:1px solid #66d7ff3d;border-radius:24px;background:linear-gradient(150deg,#164066ba,#06101ee6);box-shadow:0 30px 80px #0005}.top{display:flex;justify-content:space-between;color:#8ba5bb;font-size:11px;font-weight:800;letter-spacing:.12em}.top span{color:#6ee7b7}.wallet small{display:block;color:#7e95a9;margin-top:55px}.wallet>strong{display:block;font-size:42px;margin:7px 0}.wallet code,.empty code{display:block;padding:10px;border-radius:9px;background:#0003;color:#8fa7ba;font-size:11px;overflow:hidden;text-overflow:ellipsis}.walletBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.walletBtns button{padding:12px;border-radius:10px;border:1px solid #67d7ff2e;color:#dff7ff;background:#47b5ff14}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:65px 0 35px}.cards article{min-height:145px;padding:20px;border:1px solid #7eb1d620;border-radius:17px;background:#0a1829a8}.cards span{color:#4fcfff;font-size:10px;font-weight:800}.cards h3{margin:16px 0 8px}.cards p,.steps p{color:#8399ac;font-size:13px;line-height:1.55}
+.panel{border:1px solid #70b9e726;border-radius:22px;background:#07121fb3;padding:30px}.panel h2{margin:7px 0 28px;font-size:30px}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.steps>div{padding:18px;border-radius:14px;background:#142a4133;border:1px solid #5daedf1a}.steps b{color:#48d2ff;font-size:12px}
+.empty{text-align:center;padding:45px 10px;max-width:650px;margin:auto}.empty h2{font-size:34px}.empty p{color:#91a5b7;line-height:1.7}.empty input{width:100%;padding:14px 15px;margin:7px 0;border:1px solid #70b9e733;border-radius:11px;background:#06111e;color:#eaf8ff;outline:none}.wide{width:100%;margin-top:12px}.hint{display:block;color:#8298ae;margin-top:12px}
+footer{width:min(1180px,90vw);margin:25px auto;padding:22px 0 40px;color:#60788c;font-size:11px;border-top:1px solid #7ab3d71a}
+@media(max-width:850px){header{padding:0 4vw}nav{display:none}.brand{flex:1}.hero{grid-template-columns:1fr;gap:30px}.cards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.hero h1{font-size:48px}.cards,.steps{grid-template-columns:1fr}.panel{padding:20px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<a class="brand" href="#" id="homeLink"><b>GB</b><span><strong>GBKAI <i>Pay</i></strong><small>Global blockchain payments</small></span></a>
+<nav><button data-tab="home" class="active">Home</button><button data-tab="pay">Pay</button><button data-tab="receive">Receive</button><button data-tab="activity">Activity</button></nav>
+<button class="connect" id="connectBtn">Connect Wallet</button>
+</header>
+<main>
+<section class="hero">
+<div>
+<label>GBANK APY • GBK • BNB SMART CHAIN</label>
+<h1>Pay globally.<br><em>Powered by GBKAI.</em></h1>
+<p>A simple payment layer for GBank APY (GBK), merchants and AI-powered services.</p>
+<div class="actions"><button class="primary" id="heroConnect">Connect & Pay</button><button class="secondary" id="receiveBtn">Receive Payment</button></div>
+<div class="msg" id="msg"></div><a class="tx" id="tx" target="_blank" rel="noreferrer" style="display:none"></a>
+</div>
+<div class="wallet"><div class="top">GBK WALLET <span id="status">● Ready</span></div><small>Available GBK</small><strong id="balance">0</strong><code id="account">Connect wallet to view balance</code><div class="walletBtns"><button id="payBtn">↗ Pay</button><button id="walletReceive">↙ Receive</button></div></div>
+</section>
+<section class="cards">
+<article><span>01</span><h3>GBK Payments</h3><p>Send GBK directly from a connected wallet on BNB Smart Chain.</p></article>
+<article><span>02</span><h3>Wallet Connectivity</h3><p>Reown WalletConnect supports normal browsers and mobile wallet flows.</p></article>
+<article><span>03</span><h3>Merchant Tools</h3><p>Payment links, QR, invoices and transaction records can build on this core.</p></article>
+<article><span>04</span><h3>Future Rails</h3><p>Stablecoins, AI-assisted payments and ZK verification can be added separately.</p></article>
+</section>
+<section class="panel" id="panel"></section>
+</main><footer>GBKAI Pay · GBank APY (GBK) · BNB Smart Chain</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+<script type="module">
+const GBK="0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D";
+const CHAIN_ID=56;
+const PROJECT_ID="19d21bb0657b8a691c0ea8f4976ce26e";
+const ABI=["function balanceOf(address) view returns (uint256)","function decimals() view returns (uint8)","function transfer(address,uint256) returns (bool)"];
+const panel=document.getElementById("panel"),msg=document.getElementById("msg"),txEl=document.getElementById("tx");
+let wcProvider=null, provider=null, signer=null, address="", decimals=8, currentTab="home";
+
+const short=a=>a?a.slice(0,6)+"…"+a.slice(-4):"";
+function setMsg(x){msg.textContent=x||""}
+function err(e){return e?.shortMessage||e?.reason||e?.message||"Wallet operation failed."}
+function render(){
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===currentTab));
+ if(currentTab==="home") panel.innerHTML='<label>HOW IT WORKS</label><h2>Connect • Review • Sign • Settle</h2><div class="steps">'+[
+ ["01","Connect","Connect a supported wallet."],["02","Choose","Enter the recipient and GBK amount."],["03","Review","Check address, amount and network."],["04","Sign","Approve the transfer in your wallet."],["05","Settle","The confirmed transaction is recorded on BNB Smart Chain."]
+ ].map(x=>'<div><b>'+x[0]+'</b><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>').join("")+'</div>';
+ else if(currentTab==="pay") panel.innerHTML='<div class="empty"><h2>Send GBK</h2><p>Send GBK directly to a BNB Smart Chain address.</p><input id="recipient" placeholder="Recipient 0x…" autocomplete="off"><input id="amount" placeholder="GBK amount" inputmode="decimal"><button class="primary wide" id="send">Send GBK</button><small class="hint">Always verify the recipient before confirming.</small></div>';
+ else if(currentTab==="receive") panel.innerHTML='<div class="empty"><h2>Receive GBK</h2><p>Share this wallet address with the sender.</p><code>'+(address||"Connect wallet first")+'</code><button class="secondary wide" id="copy">'+(address?"Copy Address":"Connect Wallet")+'</button></div>';
+ else panel.innerHTML='<div class="empty"><h2>Transaction Activity</h2><p>Open your wallet address on BscScan to see confirmed activity.</p><a class="secondary wide" style="display:block;text-decoration:none" target="_blank" href="'+(address?"https://bscscan.com/address/"+address:"https://bscscan.com")+'">Open BscScan</a></div>';
+ const send=document.getElementById("send"); if(send) send.onclick=sendGBK;
+ const copy=document.getElementById("copy"); if(copy) copy.onclick=async()=>{if(!address){connect();return}await navigator.clipboard?.writeText(address);setMsg("Address copied.")};
+}
+async function initWallet(){
+ if(wcProvider)return wcProvider;
+ setMsg("Opening secure wallet connection…");
+ try{
+   const mod=await import("https://esm.sh/@walletconnect/ethereum-provider");
+   const EthereumProvider=mod.default||mod.EthereumProvider;
+   if(!EthereumProvider)throw new Error("WalletConnect provider unavailable");
+   wcProvider=await EthereumProvider.init({
+     projectId:PROJECT_ID,
+     chains:[CHAIN_ID],
+     optionalChains:[CHAIN_ID],
+     showQrModal:true,
+     qrModalOptions:{enableMobileFullScreen:true},
+     metadata:{name:"GBKAI Pay",description:"Global blockchain payments powered by GBKAI",url:"https://pay.gbkai.com",icons:["https://gbkai.com/favicon.ico"]}
+   });
+   wcProvider.on?.("accountsChanged",accountsChanged);
+   wcProvider.on?.("chainChanged",()=>refresh());
+   wcProvider.on?.("disconnect",()=>disconnect());
+   await wcProvider.enable();
+   return wcProvider;
+ }catch(e){wcProvider=null;throw e}
+}
+function accountsChanged(accounts){if(accounts?.[0]){address=accounts[0];refresh()}else disconnect()}
+function disconnect(){address="";provider=null;signer=null;document.getElementById("account").textContent="Connect wallet to view balance";document.getElementById("status").textContent="● Ready";setMsg("Wallet disconnected.");render()}
+async function connect(){
+ try{
+   const p=await initWallet();
+   provider=new ethers.BrowserProvider(p);
+   const net=await provider.getNetwork();
+   if(net.chainId!==56n){setMsg("Please connect to BNB Smart Chain (Chain ID 56).");return}
+   signer=await provider.getSigner(); address=await signer.getAddress();
+   document.getElementById("account").textContent=address;document.getElementById("status").textContent="● Connected";
+   setMsg("Wallet connected to BNB Smart Chain.");await refresh();
+ }catch(e){setMsg(err(e))}
+}
+async function refresh(){
+ if(!address||!wcProvider)return;
+ try{
+   provider=new ethers.BrowserProvider(wcProvider);
+   const token=new ethers.Contract(GBK,ABI,provider);
+   const [raw,dec]=await Promise.all([token.balanceOf(address),token.decimals()]);
+   decimals=Number(dec);document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,decimals)).toLocaleString(undefined,{maximumFractionDigits:8});
+ }catch(e){setMsg(err(e))}
+}
+async function sendGBK(){
+ const r=document.getElementById("recipient")?.value.trim(), a=document.getElementById("amount")?.value.trim();
+ if(!address){await connect();return}
+ if(!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}
+ if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}
+ try{
+  setMsg("Preparing transaction…");
+  provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();
+  if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}
+  signer=await provider.getSigner();const token=new ethers.Contract(GBK,ABI,signer);
+  const units=ethers.parseUnits(a,String(decimals));const raw=await token.balanceOf(address);
+  if(units>raw){setMsg("Insufficient GBK balance.");return}
+  const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";
+  setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh();
+ }catch(e){setMsg(err(e))}
+}
+function tab(t){currentTab=t;render()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+document.getElementById("connectBtn").onclick=connect;document.getElementById("heroConnect").onclick=connect;
+document.getElementById("receiveBtn").onclick=()=>tab("receive");document.getElementById("payBtn").onclick=()=>tab("pay");document.getElementById("walletReceive").onclick=()=>tab("receive");
+document.getElementById("homeLink").onclick=e=>{e.preventDefault();tab("home")};
+render();
+</script>
+</body>
+</html>
