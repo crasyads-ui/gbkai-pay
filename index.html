@@ -58,18 +58,19 @@ const CHAIN_ID=56;
 const PROJECT_ID="19d21bb0657b8a691c0ea8f4976ce26e";
 const ABI=["function balanceOf(address) view returns (uint256)","function decimals() view returns (uint8)","function transfer(address,uint256) returns (bool)"];
 const panel=document.getElementById("panel"),msg=document.getElementById("msg"),txEl=document.getElementById("tx");
-let wcProvider=null, provider=null, signer=null, address="", decimals=8, currentTab="home";
+let wcProvider=null, provider=null, signer=null, address=localStorage.getItem("gbkaiPayAddress")||"", decimals=8, currentTab="home";
 
 const short=a=>a?a.slice(0,6)+"…"+a.slice(-4):"";
 function setMsg(x){msg.textContent=x||""}
 function err(e){return e?.shortMessage||e?.reason||e?.message||"Wallet operation failed."}
 function render(){
+ if(address){document.getElementById("account").textContent=address;document.getElementById("status").textContent=wcProvider?"● Connected":"● Wallet saved"}
  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===currentTab));
  if(currentTab==="home") panel.innerHTML='<label>HOW IT WORKS</label><h2>Connect • Review • Sign • Settle</h2><div class="steps">'+[
  ["01","Connect","Connect a supported wallet."],["02","Choose","Enter the recipient and GBK amount."],["03","Review","Check address, amount and network."],["04","Sign","Approve the transfer in your wallet."],["05","Settle","The confirmed transaction is recorded on BNB Smart Chain."]
  ].map(x=>'<div><b>'+x[0]+'</b><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>').join("")+'</div>';
  else if(currentTab==="pay") panel.innerHTML='<div class="empty"><h2>Send GBK</h2><p>Send GBK directly to a BNB Smart Chain address.</p><input id="recipient" placeholder="Recipient 0x…" autocomplete="off"><input id="amount" placeholder="GBK amount" inputmode="decimal"><button class="primary wide" id="send">Send GBK</button><small class="hint">Always verify the recipient before confirming.</small></div>';
- else if(currentTab==="receive") panel.innerHTML='<div class="empty"><h2>Receive GBK</h2><p>Share this wallet address with the sender.</p><code>'+(address||"Connect wallet first")+'</code><button class="secondary wide" id="copy">'+(address?"Copy Address":"Connect Wallet")+'</button></div>';
+ else if(currentTab==="receive") panel.innerHTML='<div class="empty"><h2>Receive GBK</h2><p>Share this wallet address with the sender.</p><code>'+(address||"Connect wallet first")+'</code><button class="secondary wide" id="copy">'+(address?"Copy Address":"Connect Wallet")+'</button><small class="hint">Only send GBK on BNB Smart Chain to this address.</small></div>';
  else panel.innerHTML='<div class="empty"><h2>Transaction Activity</h2><p>Open your wallet address on BscScan to see confirmed activity.</p><a class="secondary wide" style="display:block;text-decoration:none" target="_blank" href="'+(address?"https://bscscan.com/address/"+address:"https://bscscan.com")+'">Open BscScan</a></div>';
  const send=document.getElementById("send"); if(send) send.onclick=sendGBK;
  const copy=document.getElementById("copy"); if(copy) copy.onclick=async()=>{if(!address){connect();return}await navigator.clipboard?.writeText(address);setMsg("Address copied.")};
@@ -97,7 +98,7 @@ async function initWallet(){
  }catch(e){wcProvider=null;throw e}
 }
 function accountsChanged(accounts){if(accounts?.[0]){address=accounts[0];refresh()}else disconnect()}
-function disconnect(){address="";provider=null;signer=null;document.getElementById("account").textContent="Connect wallet to view balance";document.getElementById("status").textContent="● Ready";setMsg("Wallet disconnected.");render()}
+function disconnect(){address="";localStorage.removeItem("gbkaiPayAddress");provider=null;signer=null;document.getElementById("account").textContent="Connect wallet to view balance";document.getElementById("status").textContent="● Ready";setMsg("Wallet disconnected.");render()}
 async function connect(){
  try{
    const p=await initWallet();
@@ -105,18 +106,20 @@ async function connect(){
    const net=await provider.getNetwork();
    if(net.chainId!==56n){setMsg("Please connect to BNB Smart Chain (Chain ID 56).");return}
    signer=await provider.getSigner(); address=await signer.getAddress();
+   localStorage.setItem("gbkaiPayAddress",address);
    document.getElementById("account").textContent=address;document.getElementById("status").textContent="● Connected";
    setMsg("Wallet connected to BNB Smart Chain.");await refresh();
  }catch(e){setMsg(err(e))}
 }
 async function refresh(){
  if(!address||!wcProvider)return;
+ document.getElementById("status").textContent="● Reading balance…";
  try{
    provider=new ethers.BrowserProvider(wcProvider);
    const token=new ethers.Contract(GBK,ABI,provider);
    const [raw,dec]=await Promise.all([token.balanceOf(address),token.decimals()]);
    decimals=Number(dec);document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,decimals)).toLocaleString(undefined,{maximumFractionDigits:8});
- }catch(e){setMsg(err(e))}
+ }catch(e){document.getElementById("status").textContent="● Connected";}
 }
 async function sendGBK(){
  const r=document.getElementById("recipient")?.value.trim(), a=document.getElementById("amount")?.value.trim();
