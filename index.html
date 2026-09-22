@@ -55,10 +55,12 @@ footer{width:min(1180px,90vw);margin:25px auto;padding:22px 0 40px;color:#60788c
 <script type="module">
 const GBK="0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D";
 const CHAIN_ID=56;
+const BSC_RPC="https://bsc-dataseed.bnbchain.org";
+const GBK_DECIMALS=8;
 const PROJECT_ID="19d21bb0657b8a691c0ea8f4976ce26e";
 const ABI=["function balanceOf(address) view returns (uint256)","function decimals() view returns (uint8)","function transfer(address,uint256) returns (bool)"];
 const panel=document.getElementById("panel"),msg=document.getElementById("msg"),txEl=document.getElementById("tx");
-let wcProvider=null, provider=null, signer=null, address=localStorage.getItem("gbkaiPayAddress")||"", decimals=8, currentTab="home";
+let wcProvider=null, provider=null, signer=null, readProvider=new ethers.JsonRpcProvider(BSC_RPC), address=localStorage.getItem("gbkaiPayAddress")||"", decimals=GBK_DECIMALS, currentTab="home";
 
 const short=a=>a?a.slice(0,6)+"…"+a.slice(-4):"";
 function setMsg(x){msg.textContent=x||""}
@@ -115,23 +117,24 @@ async function refresh(){
  if(!address||!wcProvider)return;
  document.getElementById("status").textContent="● Reading balance…";
  try{
-   provider=new ethers.BrowserProvider(wcProvider);
-   const token=new ethers.Contract(GBK,ABI,provider);
-   const [raw,dec]=await Promise.all([token.balanceOf(address),token.decimals()]);
-   decimals=Number(dec);document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,decimals)).toLocaleString(undefined,{maximumFractionDigits:8});
- }catch(e){document.getElementById("status").textContent="● Connected";}
+   const token=new ethers.Contract(GBK,ABI,readProvider);
+   const raw=await token.balanceOf(address);
+   decimals=GBK_DECIMALS;document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,GBK_DECIMALS)).toLocaleString(undefined,{maximumFractionDigits:8});
+   document.getElementById("status").textContent="● Connected";
+ }catch(e){document.getElementById("status").textContent="● Connected";setMsg("Wallet connected. Balance could not be read right now; please refresh.");}
 }
 async function sendGBK(){
  const r=document.getElementById("recipient")?.value.trim(), a=document.getElementById("amount")?.value.trim();
  if(!address){await connect();return}
  if(!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}
  if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}
+ if((a.split(".")[1]||"").length>GBK_DECIMALS){setMsg("GBK supports up to 8 decimal places.");return}
  try{
   setMsg("Preparing transaction…");
   provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();
   if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}
   signer=await provider.getSigner();const token=new ethers.Contract(GBK,ABI,signer);
-  const units=ethers.parseUnits(a,String(decimals));const raw=await token.balanceOf(address);
+  const units=ethers.parseUnits(a,String(GBK_DECIMALS));const raw=await token.balanceOf(address);
   if(units>raw){setMsg("Insufficient GBK balance.");return}
   const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";
   setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh();
