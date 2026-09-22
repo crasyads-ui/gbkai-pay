@@ -18,7 +18,7 @@ main{width:min(1180px,90vw);margin:auto;padding:65px 0 40px}.hero{display:grid;g
 .wallet{padding:26px;border:1px solid #66d7ff3d;border-radius:24px;background:linear-gradient(150deg,#164066ba,#06101ee6);box-shadow:0 30px 80px #0005}.top{display:flex;justify-content:space-between;color:#8ba5bb;font-size:11px;font-weight:800;letter-spacing:.12em}.top span{color:#6ee7b7}.wallet small{display:block;color:#7e95a9;margin-top:55px}.wallet>strong{display:block;font-size:42px;margin:7px 0}.wallet code,.empty code{display:block;padding:10px;border-radius:9px;background:#0003;color:#8fa7ba;font-size:11px;overflow:hidden;text-overflow:ellipsis;min-width:0;overflow-wrap:anywhere}.walletBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.walletBtns button{padding:12px;border-radius:10px;border:1px solid #67d7ff2e;color:#dff7ff;background:#47b5ff14}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:65px 0 35px}.cards article{min-height:145px;padding:20px;border:1px solid #7eb1d620;border-radius:17px;background:#0a1829a8}.cards span{color:#4fcfff;font-size:10px;font-weight:800}.cards h3{margin:16px 0 8px}.cards p,.steps p{color:#8399ac;font-size:13px;line-height:1.55}
 .panel{border:1px solid #70b9e726;border-radius:22px;background:#07121fb3;padding:30px}.panel h2{margin:7px 0 28px;font-size:30px}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.steps>div{padding:18px;border-radius:14px;background:#142a4133;border:1px solid #5daedf1a}.steps b{color:#48d2ff;font-size:12px}
-.empty{text-align:center;padding:45px 10px;max-width:650px;margin:auto}.empty h2{font-size:34px}.empty p{color:#91a5b7;line-height:1.7}.empty input{width:100%;padding:14px 15px;margin:7px 0;border:1px solid #70b9e733;border-radius:11px;background:#06111e;color:#eaf8ff;outline:none}.wide{width:100%;margin-top:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qrBox{margin:18px auto;padding:16px;width:min(280px,80vw);background:#fff;border-radius:18px;display:grid;place-items:center}.qrBox canvas{max-width:100%;height:auto}.scanBox{margin-top:18px;border:1px solid #70b9e733;border-radius:16px;overflow:hidden;background:#030914}.scanBox video{width:100%;display:block}.scanStatus{color:#91dfff;font-size:12px;margin-top:10px}.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:100}.modalCard{width:min(520px,94vw);max-height:90vh;overflow:auto;padding:20px;border:1px solid #70b9e744;border-radius:22px;background:#07121f;box-shadow:0 30px 90px #0008}.modalTop{display:flex;justify-content:space-between;align-items:center}.modalTop h3{margin:0}.close{border:1px solid #70b9e733;border-radius:9px;background:#0d2236;color:#dff7ff;padding:8px 12px}.qrLabel{color:#7f95a9;font-size:12px;margin-top:10px}.hint{display:block;color:#8298ae;margin-top:12px}
+.empty{text-align:center;padding:45px 10px;max-width:650px;margin:auto}.empty h2{font-size:34px}.empty p{color:#91a5b7;line-height:1.7}.empty input{width:100%;padding:14px 15px;margin:7px 0;border:1px solid #70b9e733;border-radius:11px;background:#06111e;color:#eaf8ff;outline:none}.wide{width:100%;margin-top:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qrBox{margin:18px auto;padding:16px;width:min(300px,82vw);background:#fff;border-radius:18px;display:grid;place-items:center}.qrBox canvas{display:block;max-width:100%;height:auto}.scanBox{margin-top:18px;border:1px solid #70b9e733;border-radius:16px;overflow:hidden;background:#030914}.scanBox video{width:100%;display:block}.scanStatus{color:#91dfff;font-size:12px;margin-top:10px}.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:20px;z-index:100}.modalCard{width:min(520px,94vw);max-height:90vh;overflow:auto;padding:20px;border:1px solid #70b9e744;border-radius:22px;background:#07121f;box-shadow:0 30px 90px #0008}.modalTop{display:flex;justify-content:space-between;align-items:center}.modalTop h3{margin:0}.close{border:1px solid #70b9e733;border-radius:9px;background:#0d2236;color:#dff7ff;padding:8px 12px}.qrLabel{color:#7f95a9;font-size:12px;margin-top:10px}.hint{display:block;color:#8298ae;margin-top:12px}
 footer{width:min(1180px,90vw);margin:25px auto;padding:22px 0 40px;color:#60788c;font-size:11px;border-top:1px solid #7ab3d71a}
 @media(max-width:850px){header{padding:0 4vw}nav{display:none}.brand{flex:1}.hero{grid-template-columns:1fr;gap:30px}.cards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){main{width:min(94vw,1180px);padding-top:42px}.hero h1{font-size:44px}.hero p{font-size:16px}.wallet{padding:20px}.wallet>strong{font-size:34px;line-height:1.1;overflow-wrap:anywhere}.walletBtns{grid-template-columns:1fr 1fr}.cards,.steps{grid-template-columns:1fr}.panel{padding:20px}.row{grid-template-columns:1fr}.brand{min-width:0}.brand strong{font-size:18px}.brand small{font-size:8px}.connect{padding:10px 12px;font-size:14px}}
@@ -68,19 +68,20 @@ const short=a=>a?a.slice(0,6)+"…"+a.slice(-4):"";
 function setMsg(x){msg.textContent=x||""}
 function err(e){return e?.shortMessage||e?.reason||e?.message||"Wallet operation failed."}
 function render(){
+ document.getElementById("connectBtn").textContent=address?(wcProvider?short(address):"Reconnect Wallet"):"Connect Wallet";
  if(address){document.getElementById("account").textContent=address;document.getElementById("status").textContent=wcProvider?"● Connected":"● Wallet saved"}
  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===currentTab));
  if(currentTab==="home") panel.innerHTML='<label>HOW IT WORKS</label><h2>Connect • Review • Sign • Settle</h2><div class="steps">'+[
  ["01","Connect","Connect a supported wallet."],["02","Choose","Enter the recipient and GBK amount."],["03","Review","Check address, amount and network."],["04","Sign","Approve the transfer in your wallet."],["05","Settle","The confirmed transaction is recorded on BNB Smart Chain."]
  ].map(x=>'<div><b>'+x[0]+'</b><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>').join("")+'</div>';
- else if(currentTab==="pay") panel.innerHTML='<div class="empty"><h2>Send GBK</h2><p>Send GBK directly to a BNB Smart Chain address.</p><input id="recipient" placeholder="Recipient 0x…" autocomplete="off"><input id="amount" placeholder="GBK amount" inputmode="decimal"><div class="row"><button class="secondary" id="scanPay">▣ Scan QR</button><button class="secondary" id="pastePay">Paste Address</button></div><button class="primary wide" id="send">Send GBK</button><small class="hint">Scan a GBK payment QR or enter an address. Always verify the recipient before confirming.</small></div>';
+ else if(currentTab==="pay") panel.innerHTML='<div class="empty"><h2>Send GBK</h2><p>Send GBK directly to a BNB Smart Chain address.</p><input id="recipient" placeholder="Recipient 0x…" autocomplete="off"><input id="amount" placeholder="GBK amount" inputmode="decimal"><div class="row"><button class="secondary" id="scanPay">▣ Scan QR</button><button class="secondary" id="uploadPay">▧ Upload QR</button></div><input id="qrFile" type="file" accept="image/*" style="display:none"><button class="primary wide" id="send">Send GBK</button><small class="hint">Scan a GBK payment QR or enter an address. Always verify the recipient before confirming.</small></div>';
  else if(currentTab==="receive") panel.innerHTML='<div class="empty"><h2>Receive GBK</h2><p>Share this wallet address or QR code with the sender.</p><code>'+(address||"Connect wallet first")+'</code><div class="row"><button class="secondary" id="copy">'+(address?"Copy Address":"Connect Wallet")+'</button><button class="secondary" id="showQR" '+(address?"":"disabled")+'>▦ Show QR</button></div><div id="receiveQR" style="display:none"><div class="qrBox"><canvas id="qrCanvas"></canvas></div><div class="qrLabel">Scan this QR in GBKAI Pay to prepare a GBK payment on BNB Smart Chain.</div></div><small class="hint">Only send GBK on BNB Smart Chain to this address.</small></div>';
  else panel.innerHTML='<div class="empty"><h2>Transaction Activity</h2><p>Open your wallet address on BscScan to see confirmed activity.</p><a class="secondary wide" style="display:block;text-decoration:none" target="_blank" href="'+(address?"https://bscscan.com/address/"+address:"https://bscscan.com")+'">Open BscScan</a></div>';
  const send=document.getElementById("send"); if(send) send.onclick=sendGBK;
  const copy=document.getElementById("copy"); if(copy) copy.onclick=async()=>{if(!address){connect();return}await navigator.clipboard?.writeText(address);setMsg("Address copied.")};
- const paste=document.getElementById("pastePay"); if(paste) paste.onclick=async()=>{try{const v=await navigator.clipboard.readText();if(v)document.getElementById("recipient").value=v.trim();setMsg("Recipient address pasted.")}catch(e){setMsg("Clipboard access was blocked. Paste the address manually.")}};
+ const upload=document.getElementById("uploadPay"); if(upload) upload.onclick=()=>document.getElementById("qrFile")?.click(); const qrFile=document.getElementById("qrFile"); if(qrFile) qrFile.onchange=()=>scanQRFile(qrFile.files?.[0]);
  const scan=document.getElementById("scanPay"); if(scan) scan.onclick=()=>openScanner();
- const showQR=document.getElementById("showQR"); if(showQR) showQR.onclick=()=>showReceiveQR();
+ const showQR=document.getElementById("showQR"); if(showQR) showQR.onclick=()=>showReceiveQR(); if(currentTab==="receive"&&address) setTimeout(showReceiveQR,50);
 }
 async function initWallet(){
  if(wcProvider)return wcProvider;
@@ -143,6 +144,7 @@ function openScanner(){
    },()=>{}).catch(()=>{status.textContent="Camera could not start. Check browser camera permission.";});
  }catch(e){status.textContent="Camera scanner could not start."}
 }
+async function scanQRFile(file){if(!file)return;if(!window.Html5Qrcode){setMsg("QR scanner is loading. Please try again.");return}try{const scanner=new Html5Qrcode("qrReader");const text=await scanner.scanFile(file,true);const parsed=parsePaymentQR(text);if(!parsed){setMsg("QR found, but it is not a valid GBK payment QR.");scanner.clear().catch(()=>{});return}const r=document.getElementById("recipient");if(r)r.value=parsed.address;scanner.clear().catch(()=>{});setMsg("Recipient loaded from QR image. Verify the address before sending.")}catch(e){setMsg("Could not read that QR image. Please use a clear GBK payment QR.")}}
 function parsePaymentQR(text){
  const t=(text||"").trim();
  if(ethers.isAddress(t))return {address:t};
@@ -159,35 +161,11 @@ function closeScanner(){
  if(qrScanner){qrScanner.stop().catch(()=>{});qrScanner.clear().catch(()=>{});qrScanner=null}
  document.getElementById("qrModal").style.display="none";
 }
-async function showReceiveQR(){
- if(!address){await connect();if(!address)return}
- const box=document.getElementById("receiveQR"),canvas=document.getElementById("qrCanvas");
- if(!box||!canvas||!window.QRCode)return;
- box.style.display="block";
- const payload="gbkai-pay://pay?address="+encodeURIComponent(address)+"&chain=56&token=GBK";
- QRCode.toCanvas(canvas,payload,{width:240,margin:2,errorCorrectionLevel:"M"},e=>{if(e)setMsg("Could not create QR code.")});
- setMsg("GBK payment QR ready. Share this screen with the sender.");
-}
+async function showReceiveQR(){if(!address){await connect();if(!address)return}const box=document.getElementById("receiveQR"),canvas=document.getElementById("qrCanvas");if(!box||!canvas)return;box.style.display="block";if(!window.QRCode){setMsg("QR generator is loading. Please refresh once.");return}const payload="https://pay.gbkai.com/?pay=gbk&address="+encodeURIComponent(address)+"&chain=56&token=GBK";try{await QRCode.toCanvas(canvas,payload,{width:260,margin:2,errorCorrectionLevel:"M"});setMsg("GBK receive QR is ready. Scan it to prepare a payment.")}catch(e){setMsg("Could not create the receive QR. Please refresh and try again.")}}
 document.getElementById("qrClose").onclick=closeScanner;
 document.getElementById("qrModal").addEventListener("click",e=>{if(e.target.id==="qrModal")closeScanner()});
 
-async function sendGBK(){
- const r=document.getElementById("recipient")?.value.trim(), a=document.getElementById("amount")?.value.trim();
- if(!address){await connect();return}
- if(!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}
- if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}
- if((a.split(".")[1]||"").length>GBK_DECIMALS){setMsg("GBK supports up to 8 decimal places.");return}
- try{
-  setMsg("Preparing transaction…");
-  provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();
-  if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}
-  signer=await provider.getSigner();const token=new ethers.Contract(GBK,ABI,signer);
-  const units=ethers.parseUnits(a,String(GBK_DECIMALS));const raw=await token.balanceOf(address);
-  if(units>raw){setMsg("Insufficient GBK balance.");return}
-  const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";
-  setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh();
- }catch(e){setMsg(err(e))}
-}
+async function sendGBK(){const r=document.getElementById("recipient")?.value.trim(),a=document.getElementById("amount")?.value.trim(),btn=document.getElementById("send");if(!r||!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}if((a.split(".")[1]||"").length>GBK_DECIMALS){setMsg("GBK supports up to 8 decimal places.");return}try{if(!wcProvider){setMsg("Reconnect your wallet to send GBK.");await connect();if(!wcProvider)return}if(r.toLowerCase()===address.toLowerCase()){setMsg("Recipient is the connected wallet. Enter a different address.");return}if(btn){btn.disabled=true;btn.textContent="Preparing…"}provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}signer=await provider.getSigner();const feeBalance=await provider.getBalance(address);if(feeBalance===0n){setMsg("You need a small amount of BNB for the network fee.");return}const units=ethers.parseUnits(a,String(GBK_DECIMALS));const token=new ethers.Contract(GBK,ABI,signer);const raw=await token.balanceOf(address);if(units>raw){setMsg("Insufficient GBK balance.");return}if(!confirm("Send "+a+" GBK to "+r+" on BNB Smart Chain?"))return;if(btn)btn.textContent="Confirm in wallet…";const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";if(btn)btn.textContent="Confirming…";setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh()}catch(e){setMsg(err(e))}finally{if(btn){btn.disabled=false;btn.textContent="Send GBK"}}}
 function tab(t){currentTab=t;render()}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
 document.getElementById("connectBtn").onclick=connect;document.getElementById("heroConnect").onclick=connect;
