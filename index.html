@@ -124,7 +124,7 @@ async function refresh(){
  try{
    const token=new ethers.Contract(GBK,ABI,readProvider);
    const raw=await token.balanceOf(address);
-   decimals=GBK_DECIMALS;document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,GBK_DECIMALS)).toLocaleString(undefined,{maximumFractionDigits:8});
+   decimals=GBK_DECIMALS;document.getElementById("balance").textContent=Number(ethers.formatUnits(raw,GBK_DECIMALS)).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
    document.getElementById("status").textContent="● Connected";
  }catch(e){document.getElementById("status").textContent="● Connected";setMsg("Wallet connected. Balance could not be read right now; please refresh.");}
 }
