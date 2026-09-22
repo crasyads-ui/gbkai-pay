@@ -87,6 +87,20 @@ async function initWallet(){
  if(wcProvider)return wcProvider;
  setMsg("Opening secure wallet connection…");
  try{
+   // In the Bitget Wallet in-app browser, use Bitget's injected EVM provider
+   // directly. This avoids routing a transaction back through WalletConnect.
+   const injected=window.bitkeep?.ethereum||null;
+   if(injected){
+     wcProvider=injected;
+     if(injected.on){
+       injected.on("accountsChanged",accountsChanged);
+       injected.on("chainChanged",()=>refresh());
+       injected.on("disconnect",()=>disconnect());
+     }
+     const accounts=await injected.request({method:"eth_requestAccounts"});
+     if(!accounts?.[0])throw new Error("Bitget Wallet did not return an account.");
+     return wcProvider;
+   }
    const mod=await import("https://esm.sh/@walletconnect/ethereum-provider");
    const EthereumProvider=mod.default||mod.EthereumProvider;
    if(!EthereumProvider)throw new Error("WalletConnect provider unavailable");
@@ -165,7 +179,7 @@ async function showReceiveQR(){if(!address){await connect();if(!address)return}c
 document.getElementById("qrClose").onclick=closeScanner;
 document.getElementById("qrModal").addEventListener("click",e=>{if(e.target.id==="qrModal")closeScanner()});
 
-async function sendGBK(){const r=document.getElementById("recipient")?.value.trim(),a=document.getElementById("amount")?.value.trim(),btn=document.getElementById("send");if(!r||!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}if((a.split(".")[1]||"").length>GBK_DECIMALS){setMsg("GBK supports up to 8 decimal places.");return}try{if(!wcProvider){setMsg("Reconnect your wallet to send GBK.");await connect();if(!wcProvider)return}if(r.toLowerCase()===address.toLowerCase()){setMsg("Recipient is the connected wallet. Enter a different address.");return}if(btn){btn.disabled=true;btn.textContent="Preparing…"}provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}signer=await provider.getSigner();const feeBalance=await provider.getBalance(address);if(feeBalance===0n){setMsg("You need a small amount of BNB for the network fee.");return}const units=ethers.parseUnits(a,String(GBK_DECIMALS));const token=new ethers.Contract(GBK,ABI,signer);const raw=await token.balanceOf(address);if(units>raw){setMsg("Insufficient GBK balance.");return}if(!confirm("Send "+a+" GBK to "+r+" on BNB Smart Chain?"))return;if(btn)btn.textContent="Confirm in wallet…";const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";if(btn)btn.textContent="Confirming…";setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh()}catch(e){setMsg(err(e))}finally{if(btn){btn.disabled=false;btn.textContent="Send GBK"}}}
+async function sendGBK(){const r=document.getElementById("recipient")?.value.trim(),a=document.getElementById("amount")?.value.trim(),btn=document.getElementById("send");if(!r||!ethers.isAddress(r)){setMsg("Enter a valid BNB Smart Chain recipient address.");return}if(!a||Number(a)<=0){setMsg("Enter a GBK amount.");return}if((a.split(".")[1]||"").length>GBK_DECIMALS){setMsg("GBK supports up to 8 decimal places.");return}try{if(!wcProvider){setMsg("Reconnect your wallet to send GBK.");await connect();if(!wcProvider)return}if(r.toLowerCase()===address.toLowerCase()){setMsg("Recipient is the connected wallet. Enter a different address.");return}if(btn){btn.disabled=true;btn.textContent="Preparing…"}provider=new ethers.BrowserProvider(wcProvider);const net=await provider.getNetwork();if(net.chainId!==56n){setMsg("Please switch your wallet to BNB Smart Chain.");return}signer=await provider.getSigner();const feeBalance=await provider.getBalance(address);if(feeBalance===0n){setMsg("You need a small amount of BNB for the network fee.");return}const units=ethers.parseUnits(a,String(GBK_DECIMALS));const token=new ethers.Contract(GBK,ABI,signer);const raw=await token.balanceOf(address);if(units>raw){setMsg("Insufficient GBK balance.");return}if(!confirm("Send "+a+" GBK to "+r+" on BNB Smart Chain?"))return;if(btn)btn.textContent="Confirm in wallet…";setMsg("Waiting for wallet confirmation…");const t=await token.transfer(r,units);txEl.href="https://bscscan.com/tx/"+t.hash;txEl.textContent="View transaction on BscScan ↗";txEl.style.display="inline-block";if(btn)btn.textContent="Confirming…";setMsg("Transaction submitted. Waiting for confirmation…");await t.wait();setMsg("GBK payment confirmed on BNB Smart Chain.");await refresh()}catch(e){setMsg(err(e))}finally{if(btn){btn.disabled=false;btn.textContent="Send GBK"}}}
 function tab(t){currentTab=t;render()}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
 document.getElementById("connectBtn").onclick=connect;document.getElementById("heroConnect").onclick=connect;
