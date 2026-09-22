@@ -2,5 +2,7 @@
   "name":"gbkai-pay",
   "private":true,
   "version":"0.1.0",
-  "scripts":{"build":"echo Static GBKAI Pay build complete"}
+  "scripts":{
+    "build":"rm -rf dist && mkdir -p dist && cp index.html dist/index.html"
+  }
 }
